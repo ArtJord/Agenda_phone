@@ -80,5 +80,40 @@ class Contato {
     await prefs.setStringList('contatos', contatosJson);
   }
 
+   //Modificia o Contato
+  static Future<void> alterarContato(
+      String nomeAntigo, Contato contatoAtualizado) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      List<Contato> contatos = await carregarContatos();
+
+      int index = contatos.indexWhere((contato) => contato.nome == nomeAntigo);
+
+      if (index != -1) {
+        contatos[index] = contatoAtualizado;
+
+        contatos.sort((a, b) => a.nome.compareTo(b.nome));
+
+        List<String> contatosJson = contatos.map((contato) {
+          return jsonEncode(contato.toJson());
+        }).toList();
+
+        await prefs.setStringList('contatos', contatosJson);
+      } else {
+        print('Contato não encontrado com o nome: $nomeAntigo');
+      }
+    } catch (e) {
+      print('Erro ao alterar contato: $e');
+    }
+  }
+
        
+
+
+static Future<Contato?> buscarContatoPorNome(String nome) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<Contato> contatos = await carregarContatos();
+}
 }
