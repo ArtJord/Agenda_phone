@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:agenda_phone_flutter/outers/validacao.dart';
 
 class CadastrarContato extends StatelessWidget {
-  final TextEditingController: controlNome = TextEditingController();
-  final TextEditingController controlEmail = TextEditingController();
-  final TextEditingController controlTelefone = TextEditingController();
+final TextEditingController controlNome = TextEditingController();
+final TextEditingController controlEmail = TextEditingController();
+final TextEditingController controlTelefone = TextEditingController();
 
 
   @override
@@ -16,16 +16,12 @@ class CadastrarContato extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            Icon(
-              Icons.contacts,
-              color: Colors.white,
-            ),
             SizedBox(width: 8.0),
             Text("Agenda de Contatos"),
           ],
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 112, 2, 131),
+        backgroundColor: Colors.purple,
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -34,11 +30,11 @@ class CadastrarContato extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
+              padding: const EdgeInsets.only(bottom: 14.0),
               child: Text(
-                "Cadastro de Contato",
+                "Cadastrar um novo contato",
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: 22.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -51,7 +47,7 @@ class CadastrarContato extends StatelessWidget {
               controller: controlNome,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Seu nome",
+                hintText: "Nome",
               ),
             ),
             SizedBox(height: 16.0),
@@ -68,13 +64,13 @@ class CadastrarContato extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              "Telefone",
+              "Numero de Telefone",
               style: TextStyle(fontSize: 16),
             ),
             TextField(
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(
-                    r'^[0-9()-. ]*$')), //limita os caracteres que podem ser inseridos
+                    r'^[0-9()-. ]*$')), 
               ],
               controller: controlTelefone,
               decoration: InputDecoration(
@@ -84,7 +80,7 @@ class CadastrarContato extends StatelessWidget {
             Center(
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 112, 2, 131),
+                      backgroundColor: Colors.purple,
                       foregroundColor: Colors.white,
                       minimumSize: Size(30, 50)),
                   onPressed: () async {
@@ -98,7 +94,7 @@ class CadastrarContato extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                              'Por favor, preencha todos os campos corretamente.'),
+                              'Preencha todos os campos.'),
                           duration: Duration(seconds: 2),
                         ),
                       );
@@ -106,7 +102,7 @@ class CadastrarContato extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                              'Já existe um contato cadastrado com este nome.'),
+                              'Contato ja existente.'),
                           duration: Duration(seconds: 2),
                         ),
                       );

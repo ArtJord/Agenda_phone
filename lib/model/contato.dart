@@ -80,7 +80,6 @@ class Contato {
     await prefs.setStringList('contatos', contatosJson);
   }
 
-   //Modificia o Contato
   static Future<void> alterarContato(
       String nomeAntigo, Contato contatoAtualizado) async {
     try {
@@ -115,5 +114,40 @@ static Future<Contato?> buscarContatoPorNome(String nome) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List<Contato> contatos = await carregarContatos();
+
+      Contato? contatoEncontrado = contatos.firstWhere(
+      (contato) => contato.nome.toLowerCase() == nome.toLowerCase(),
+      orElse: () => throw Exception('Contato não encontrado'),
+    );
+
+    return contatoEncontrado;
+  }
+
+  static Future<void> excluirContatoPorNome(String nome) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      List<Contato> contatos = await carregarContatos();
+
+      int index = contatos.indexWhere(
+          (contato) => contato.nome.toLowerCase() == nome.toLowerCase());
+
+      if (index != -1) {
+        contatos.removeAt(index);
+
+        List<String> contatosJson = contatos.map((contato) {
+          return jsonEncode(contato.toJson());
+        }).toList();
+
+        await prefs.setStringList('contatos', contatosJson);
+        print('Contato excluído: $nome');
+      } else {
+        print('Contato não encontrado com o nome: $nome');
+      }
+    } catch (e) {
+      print('Erro ao excluir contato: $e');
+    }
+  }
 }
-}
+  
+
