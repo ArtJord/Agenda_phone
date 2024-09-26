@@ -9,6 +9,23 @@ final TextEditingController controlNome = TextEditingController();
 final TextEditingController controlEmail = TextEditingController();
 final TextEditingController controlTelefone = TextEditingController();
 
+ final TextStyle hintTextStyle = TextStyle(
+    color: Colors.grey.withOpacity(0.6), 
+    fontSize: 16,
+  );
+
+Widget buildUserIcon() {
+    return CircleAvatar(
+      radius: 50,
+      backgroundColor: Colors.purple,
+      child: Icon(
+        Icons.person,
+        size: 70,
+        color: Colors.white,
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +46,12 @@ final TextEditingController controlTelefone = TextEditingController();
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 14.0),
+             Align(
+              alignment: Alignment.topCenter,
+
+              child: buildUserIcon(), 
+            ),
+            Center(
               child: Text(
                 "Cadastrar um novo contato",
                 style: TextStyle(
@@ -47,7 +68,8 @@ final TextEditingController controlTelefone = TextEditingController();
               controller: controlNome,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Nome",
+                hintText: "Seu nome",
+                hintStyle: hintTextStyle,
               ),
             ),
             SizedBox(height: 16.0),
@@ -60,6 +82,7 @@ final TextEditingController controlTelefone = TextEditingController();
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "exemplo@gmail.com",
+                hintStyle: hintTextStyle,
               ),
             ),
             SizedBox(height: 16.0),
@@ -74,7 +97,9 @@ final TextEditingController controlTelefone = TextEditingController();
               ],
               controller: controlTelefone,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "(00) 00000-0000"),
+                  border: OutlineInputBorder(), hintText: "(00) 00000-0000",
+                  hintStyle: hintTextStyle,
+              ),
             ),
             SizedBox(height: 20.0),
             Center(

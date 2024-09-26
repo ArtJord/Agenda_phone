@@ -23,6 +23,18 @@ class EditarContato extends StatelessWidget {
     TextEditingController telefoneControl =
         TextEditingController(text: telefoneAnterior);
 
+   Widget buildUserIcon() {
+    return CircleAvatar(
+      radius: 50,
+      backgroundColor: Colors.purple,
+      child: Icon(
+        Icons.person,
+        size: 70,
+        color: Colors.white,
+      ),
+    );
+  }
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -40,6 +52,11 @@ class EditarContato extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
+              Align(
+              alignment: Alignment.topCenter,
+
+              child: buildUserIcon(), 
+            ),
               Text(
                 'Editar Contato',
                 style: TextStyle(
@@ -178,7 +195,7 @@ class EditarContato extends StatelessWidget {
                     },
                     child: Text('Salvar'),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
                         minimumSize: Size(30, 50)),
                   ),
