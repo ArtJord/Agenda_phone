@@ -1,6 +1,5 @@
 import 'package:agenda_phone_flutter/model/contato.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 import 'package:agenda_phone_flutter/outers/validacao.dart';
 
@@ -34,7 +33,7 @@ Widget buildUserIcon() {
         title: Row(
           children: [
             SizedBox(width: 8.0),
-            Text("Agenda de Contatos"),
+            Text("Criar Contato"),
           ],
         ),
         centerTitle: true,
@@ -90,6 +89,7 @@ Widget buildUserIcon() {
               "Numero de Telefone",
               style: TextStyle(fontSize: 16),
             ),
+            
             TextField(
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(
@@ -127,10 +127,11 @@ Widget buildUserIcon() {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                              'Contato ja existente.'),
+                              'Nome ja existente.'),
                           duration: Duration(seconds: 2),
                         ),
                       );
+                      
                     } else {
                       Contato contato =
                           Contato(nome: nome, telefone: telefone, email: email);

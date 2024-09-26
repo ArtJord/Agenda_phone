@@ -41,7 +41,7 @@ class Card_ extends StatelessWidget {
                   Text(telefone),
                   SizedBox(height: 4),
                   Text(email),
-                ], // <- Corrigido o fechamento do Column
+                ], // 
               ),
             ],
           ),

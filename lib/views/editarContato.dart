@@ -40,7 +40,8 @@ class EditarContato extends StatelessWidget {
         title: Row(
           children: [
             SizedBox(width: 6.0),
-            Text("Agenda telefonica"),
+            Text("Editar Contato"),
+            
           ],
         ),
         centerTitle: true,
