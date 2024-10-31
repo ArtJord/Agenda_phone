@@ -113,34 +113,8 @@ Widget buildUserIcon() {
                     String email = controlEmail.text;
                     String telefone = controlTelefone.text;
 
-                    bool nomeExistente = await validaNome(nome);
-
-                    if (!validacao(nome, email, telefone)) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              'Preencha todos os campos.'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    } else if (nomeExistente) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              'Nome ja existente.'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
+                   
                       
-                    } else {
-                      Contato contato =
-                          Contato(nome: nome, telefone: telefone, email: email);
-                      Contato.adicionarContato(contato);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Contato adicionado com sucesso!'),
-                      ));
-                      Navigator.pop(context);
-                    }
                   },
                   child: Text(
                     "Cadastrar",
