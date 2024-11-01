@@ -1,6 +1,8 @@
 import 'package:agenda_phone_flutter/controller/usuarioController.dart';
-import 'package:agenda_phone_flutter/model/contato.dart';
+import 'package:agenda_phone_flutter/model/Usuario.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:agenda_phone_flutter/model/Contato.dart';
+import 'package:agenda_phone_flutter/controller/contatoController.dart';
 
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 

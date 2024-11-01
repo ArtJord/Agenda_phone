@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:agenda_phone_flutter/outers/sharePreferences.dart';
-import 'package:agenda_phone_flutter/views/list.dart';
+import 'package:agenda_phone_flutter/views/Contato/list.dart';
 import 'package:agenda_phone_flutter/model/contato.dart';
 
 void main() {

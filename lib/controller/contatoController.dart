@@ -1,12 +1,9 @@
-
 import 'package:agenda_phone_flutter/outers/sharePreferences.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:agenda_phone_flutter/service/DatabaseService.dart';
-
-
 import 'package:agenda_phone_flutter/model/contato.dart';
-import 'package:agenda_phone_flutter/service/DatabaseService.dart';
+
 
 class ContatoController {
   final DatabaseService _dbService = DatabaseService.instance;

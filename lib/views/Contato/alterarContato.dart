@@ -1,87 +1,76 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:agenda_phone_flutter/model/contato.dart';
+import 'package:agenda_phone_flutter/controller/ContatoController.dart';
+import 'package:agenda_phone_flutter/model/Contato.dart';
+import 'package:agenda_phone_flutter/outers/SharePreferences.dart';
 import 'package:agenda_phone_flutter/outers/validacao.dart';
+import 'package:flutter/material.dart';
 
-class EditarContato extends StatelessWidget {
-  final String nomeAnterior;
-  final String emailAnterior;
-  final String telefoneAnterior;
+class AlterarContato extends StatelessWidget {
+  final int? antigoId;
+  final String antigoNome;
+  final String antigoEmail;
+  final String antigoTelefone;
 
-  EditarContato({
-    required this.nomeAnterior,
-    required this.emailAnterior,
-    required this.telefoneAnterior
+  final contatoController = ContatoController();
+
+  AlterarContato({
+    required this.antigoId,
+    required this.antigoNome,
+    required this.antigoEmail,
+    required this.antigoTelefone,
   });
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nomeControl =
-        TextEditingController(text: nomeAnterior);
-    TextEditingController emailControl =
-        TextEditingController(text: emailAnterior);
-    TextEditingController telefoneControl =
-        TextEditingController(text: telefoneAnterior);
-
-   Widget buildUserIcon() {
-    return CircleAvatar(
-      radius: 50,
-      backgroundColor: Colors.purple,
-      child: Icon(
-        Icons.person,
-        size: 70,
-        color: Colors.white,
-      ),
-    );
-  }
+    TextEditingController nomeController =
+        TextEditingController(text: antigoNome);
+    TextEditingController emailController =
+        TextEditingController(text: antigoEmail);
+    TextEditingController telefoneController =
+        TextEditingController(text: antigoTelefone);
 
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
-            SizedBox(width: 6.0),
-            Text("Editar Contato"),
-            
+            Icon(Icons.contacts, color: Colors.white),
+            SizedBox(width: 8.0),
+            Text("Agenda telefonica"),
           ],
         ),
         centerTitle: true,
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(  
+      body: SingleChildScrollView(
+        
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Align(
-              alignment: Alignment.topCenter,
-
-              child: buildUserIcon(), 
-            ),
               Text(
                 'Editar Contato',
                 style: TextStyle(
-                  fontSize: 22.0,
+                  fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 20.0),
               TextField(
-                controller: nomeControl,
+                controller: nomeController,
                 decoration: InputDecoration(
-                    labelText: 'Nome', labelStyle: TextStyle(fontSize: 20)),
+                    labelText: 'Nome', labelStyle: TextStyle(fontSize: 16)),
               ),
               TextField(
-                controller: emailControl,
+                controller: emailController,
                 decoration: InputDecoration(
-                    labelText: 'Email', labelStyle: TextStyle(fontSize: 20)),
+                    labelText: 'Email', labelStyle: TextStyle(fontSize: 16)),
               ),
               TextField(
-                controller: telefoneControl,
+                controller: telefoneController,
                 decoration: InputDecoration(
-                    labelText: 'Telefone', labelStyle: TextStyle(fontSize: 20)),
+                    labelText: 'Telefone', labelStyle: TextStyle(fontSize: 16)),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -91,9 +80,9 @@ class EditarContato extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Confirmar'),
+                            title: Text('Confirmação'),
                             content: Text(
-                                'Deseja deletar esse contato?'),
+                                'Tem certeza de que deseja deletar este contato?'),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -103,7 +92,7 @@ class EditarContato extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Contato.excluirContatoPorNome(nomeAnterior);
+                                  contatoController.removerContato(antigoId);
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                     content:
@@ -122,7 +111,10 @@ class EditarContato extends StatelessWidget {
                         },
                       );
                     },
-                    child: Text('Deletar'),
+                    child: Text(
+                      'Deletar',
+                      style: TextStyle(fontSize: 20),
+                    ),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
@@ -131,26 +123,18 @@ class EditarContato extends StatelessWidget {
                   SizedBox(width: 30.0),
                   ElevatedButton(
                     onPressed: () async {
-                      String novoNome = nomeControl.text;
-                      String novoEmail = emailControl.text;
-                      String novoTelefone = telefoneControl.text;
+                      String novoNome = nomeController.text;
+                      String novoEmail = emailController.text;
+                      String novoTelefone = telefoneController.text;
 
-                      bool nomeJaExiste = await validaNome(novoNome);
-                      bool alterouNome = novoNome != nomeAnterior;
                       bool informacoesValidas =
-                          validacao
-                          (novoNome, novoEmail, novoTelefone);
-                      if (!alterouNome) {
-                        nomeJaExiste = false;
-                      }
+                          validaInformacoes(novoNome, novoEmail, novoTelefone);
 
-                      print(informacoesValidas);
-                      if (!informacoesValidas || nomeJaExiste) {
+                      if (!informacoesValidas) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content:
-                                Text('Informações inválidas ou existentes.'),
-                            duration: Duration(seconds: 3),
+                            content: Text('Informações inválidas'),
+                            duration: Duration(seconds: 2),
                           ),
                         );
                       } else {
@@ -160,7 +144,7 @@ class EditarContato extends StatelessWidget {
                             return AlertDialog(
                               title: Text('Confirmação'),
                               content: Text(
-                                  'Salvar as alterações?'),
+                                  'Tem certeza de que deseja salvar as alterações?'),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -169,23 +153,28 @@ class EditarContato extends StatelessWidget {
                                   child: Text('Cancelar'),
                                 ),
                                 TextButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    int usuarioId =
+                                        await recuperandoIdUsuario();
+
                                     Contato contato = Contato(
+                                        id: antigoId,
                                         nome: novoNome,
                                         email: novoEmail,
-                                        telefone: novoTelefone);
-                                    Contato.alterarContato(nomeAnterior, contato);
+                                        telefone: novoTelefone,
+                                        usuarioId: usuarioId);
+                                    contatoController.atualizarContato(contato);
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(
                                       content:
-                                          Text('Contato alterado!'),
+                                          Text('Contato alterado com sucesso!'),
                                     ));
                                     Navigator.of(context).pop();
                                     Navigator.pop(context);
                                   },
                                   child: Text('Confirmar'),
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.green,
+                                      backgroundColor: Colors.blue,
                                       foregroundColor: Colors.white),
                                 ),
                               ],
@@ -194,9 +183,12 @@ class EditarContato extends StatelessWidget {
                         );
                       }
                     },
-                    child: Text('Salvar'),
+                    child: Text(
+                      'Salvar',
+                      style: TextStyle(fontSize: 20),
+                    ),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
+                        backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
                         minimumSize: Size(30, 50)),
                   ),
@@ -208,5 +200,4 @@ class EditarContato extends StatelessWidget {
       ),
     );
   }
-
-  }
+}

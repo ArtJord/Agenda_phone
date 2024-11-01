@@ -35,7 +35,7 @@ class UsuarioController {
     return null;
   }
 
-//Use somente para debuggar
+
 Future<List<Usuario>> buscaTodosUsuarios() async {
   try {
     final db = await _dbService.database;

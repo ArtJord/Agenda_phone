@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:agenda_phone_flutter/model/contato.dart';
-import 'package:agenda_phone_flutter/views/cadastro.dart';
-import 'package:agenda_phone_flutter/views/editarContato.dart';
+import 'package:agenda_phone_flutter/views/Contato/cadastro.dart';
+import 'package:agenda_phone_flutter/views/Contato/AlterarContato.dart';
 import 'package:agenda_phone_flutter/Card/card.dart';
+import 'package:agenda_phone_flutter/controller/contatoController.dart';
+
 
 class Lista extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class Lista extends StatefulWidget {
 
 class ListaState extends State<Lista> {
   List<Contato> contatos = [];
+  final contatoController = ContatoController();
 
   @override
   void initState() {
@@ -19,8 +22,9 @@ class ListaState extends State<Lista> {
     carregarContatos();
   }
 
-  Future<void> carregarContatos() async {
-    List<Contato> loadedContatos = await Contato.carregarContatos();
+   Future<void> carregarContatos() async {
+    List<Contato> loadedContatos =
+        await contatoController.getContatoOrdemAlfabetica();
     setState(() {
       contatos = loadedContatos;
     });
@@ -46,10 +50,10 @@ class ListaState extends State<Lista> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EditarContato(
-                    nomeAnterior: contato.nome,
-                    emailAnterior: contato.email,
-                    telefoneAnterior: contato.telefone,
+                  builder: (context) => AlterarContato(
+                    antigoNome: contato.nome,
+                    antigoEmail: contato.email,
+                    antigoTelefone: contato.telefone,
                   ),
                 ),
               ).then((_) {
